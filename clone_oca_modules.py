@@ -10,12 +10,15 @@ Have to be update with global variables in the github OCA/maintainer-tools/tools
 OCA_REPOSITORY_NAMES: list of OCA repository names
 
 """
-
+import sys
+import os
+from os import path
+sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import argparse
 import subprocess
 
 from .oca_projects import OCA_REPOSITORY_NAMES, url
-import os
+
 
 def clone(organization_remotes=None,
           remove_old_repos=False,
@@ -71,6 +74,10 @@ def main():
           remove_old_repos=args.remove_old_repos)
 
 if __name__ == '__main__':
+    if __package__ is None:
+        import sys
+        from os import path
+        sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
     main()
 
 
