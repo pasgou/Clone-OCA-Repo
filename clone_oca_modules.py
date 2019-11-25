@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Importing tool for OCA projects.
@@ -12,8 +13,9 @@ OCA_REPOSITORY_NAMES: list of OCA repository names
 
 import argparse
 import subprocess
-import os
+
 from .oca_projects import OCA_REPOSITORY_NAMES, url
+import os
 
 def clone(organization_remotes=None,
           remove_old_repos=False,
