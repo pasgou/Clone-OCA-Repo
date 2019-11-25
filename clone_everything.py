@@ -1,30 +1,22 @@
-# -*- coding: utf-8 -*-
-"""
-Importing tool for OCA projects.
-It is an adaptation by mainteners-tools by OCA project "Clone_everything.py" script.
-OCA_POJECTS : dictionary of OCA Projects mapped to the list of related
-repository names. 
-Have to be update with global variables in the github OCA/maintainer-tools/tools/oca_projects.py file.
-
-OCA_REPOSITORY_NAMES: list of OCA repository names
-
-"""
+#!/usr/bin/env python
+# License AGPLv3 (http://www.gnu.org/licenses/agpl-3.0-standalone.html)
 
 import argparse
 import subprocess
-import os
+
 from .oca_projects import OCA_REPOSITORY_NAMES, url
+import os
+
 
 def clone(organization_remotes=None,
-          remove_old_repos=False,
-          protocol='https',
-	  branche='12.0'
-         ):
+          remove_old_repos=False, target_branch=False):
     for project in OCA_REPOSITORY_NAMES:
-        cmd = ['git', 'clone', '--quiet', url(project,protocol),'-b', branche, project]
+        cmd = ['git', 'clone', '--quiet', url(project), project]
+        if target_branch:
+            cmd += ['-b', target_branch]
         try:
             subprocess.check_call(cmd)
-        except:
+        except Exception:
             cmd = ['git',
                    '--git-dir=' + os.path.join(project, '.git'),
                    'fetch', '--all']
@@ -33,10 +25,7 @@ def clone(organization_remotes=None,
             for organization_remote in organization_remotes.split(','):
                 cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
                        'remote', 'add', organization_remote,
-                       url(project, protocol, org_name=organization_remote)]
-                subprocess.call(cmd)
-                cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
-                       'fetch', organization_remote]
+                       url(project, org_name=organization_remote)]
                 subprocess.call(cmd)
     if remove_old_repos:
         for d in os.listdir('.'):
@@ -63,12 +52,17 @@ def main():
                         " other subdirectories will be erased permanently. "
                         " This option is useful to cope with repository"
                         " renames.")
+    parser.add_argument(
+        "--target-branch", dest="target_branch",
+        help="Add this argument for specifying the branch you want to "
+             "checkout."
+    )
     args = parser.parse_args()
     org_remotes = args.org_remotes and args.org_remotes[0] or None
     clone(organization_remotes=org_remotes,
-          remove_old_repos=args.remove_old_repos)
+          remove_old_repos=args.remove_old_repos,
+          target_branch=args.target_branch)
+
 
 if __name__ == '__main__':
     main()
-
-
