@@ -290,9 +290,9 @@ def clone(organization_remotes=None,
             print cmd2
             cmd3 = ['cd',local_path]
             print cmd3
-#             subprocess.call(cmd) 
+            subprocess.call(cmd) 
 #             subprocess.call(cmd2)
-#             subprocess.call(cmd3)
+            subprocess.call(cmd3)
         else:
             cmd = ['git', 'clone', '--quiet', url(project,protocol),'-b', branche, project]
             try:
