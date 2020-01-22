@@ -285,7 +285,7 @@ def clone(organization_remotes=None,
             print local_path
             print addon_path
             os.chdir(addon_path)
-            if subprocess.call(['git', 'branch']) = "* 12.0":
+            if subprocess.call(['git', 'branch']) == "* 12.0":
                 cmd = ['git', 'pull']
                 subprocess.call(cmd)
             else:
