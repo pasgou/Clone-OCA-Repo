@@ -279,28 +279,28 @@ def clone(organization_remotes=None,
 	  branche='12.0'
          ):
     for project in OCA_REPOSITORY_NAMES:
-        cmd = ['git', 'clone', '--quiet', url(project,protocol),'-b', branche, project]
-        try:
-            subprocess.check_call(cmd)
-        except:
-            cmd = ['git',
-                   '--git-dir=' + os.path.join(project, '.git'),
-                   'fetch', '--all']
-            subprocess.call(cmd)
-        
-        if d in os.listdir('.'):
-            cmd = ['cd', d, ';', 'git', 'pull', '--quiet', 'cd','..']
+        if project in os.listdir(.):
+            cmd = ['cd', project, ';', 'git', 'pull', '--quiet', 'cd','..']
             subprocess.call(cmd) 
-
-        if organization_remotes:
-            for organization_remote in organization_remotes.split(','):
-                cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
-                       'remote', 'add', organization_remote,
-                       url(project, protocol, org_name=organization_remote)]
+        else:
+            cmd = ['git', 'clone', '--quiet', url(project,protocol),'-b', branche, project]
+            try:
+                subprocess.check_call(cmd)
+            except:
+                cmd = ['git',
+                       '--git-dir=' + os.path.join(project, '.git'),
+                       'fetch', '--all']
                 subprocess.call(cmd)
-                cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
-                       'fetch', organization_remote]
-                subprocess.call(cmd)
+        
+            if organization_remotes:
+                for organization_remote in organization_remotes.split(','):
+                    cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
+                           'remote', 'add', organization_remote,
+                           url(project, protocol, org_name=organization_remote)]
+                    subprocess.call(cmd)
+                    cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
+                           'fetch', organization_remote]
+                    subprocess.call(cmd)
     
     if remove_old_repos:
         for d in os.listdir('.'):
