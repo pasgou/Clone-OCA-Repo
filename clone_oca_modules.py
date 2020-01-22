@@ -280,7 +280,7 @@ def clone(organization_remotes=None,
          ):
     for project in OCA_REPOSITORY_NAMES:
         if project in os.listdir('.'):
-            local_path = os.path.abspath('.')
+            local_path = os.path.abspath(project)
             addon_path = os.path.join(os.path.abspath('.'),project)
             print addon_path
             cmd = ['cd', addon_path]
