@@ -284,15 +284,10 @@ def clone(organization_remotes=None,
             addon_path = os.path.abspath(project)+"/"
             print local_path
             print addon_path
-            cmd = ['cd', addon_path]
-            print cmd
-            cmd2 = ['git', 'pull', '--quiet']
-            print cmd2
-            cmd3 = ['cd',local_path]
-            print cmd3
-            print subprocess.call(cmd)
-#             subprocess.call(cmd2)
-            subprocess.call(cmd3)
+            os.chdir(addon_path)
+            cmd = ['git', 'pull', '--quiet']
+            subprocess.call(cmd)
+            os.chdir(local_path)
         else:
             cmd = ['git', 'clone', '--quiet', url(project,protocol),'-b', branche, project]
             try:
