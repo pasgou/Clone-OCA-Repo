@@ -286,11 +286,12 @@ def clone(organization_remotes=None,
             cmd = ['git',
                    '--git-dir=' + os.path.join(project, '.git'),
                    'fetch', '--all']
-            try:
-                subprocess.call(cmd)
-            except:
-                cmd = ['git', 'pull', '--quiet', url(project,protocol),'-b', branche, project]
-                subprocess.call(cmd)
+            subprocess.call(cmd)
+        
+        if d in os.listdir('.'):
+            cmd = ['cd', d, ';', 'git', 'pull', '--quiet', 'cd','..']
+            subprocess.call(cmd) 
+
         if organization_remotes:
             for organization_remote in organization_remotes.split(','):
                 cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
@@ -300,6 +301,7 @@ def clone(organization_remotes=None,
                 cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
                        'fetch', organization_remote]
                 subprocess.call(cmd)
+    
     if remove_old_repos:
         for d in os.listdir('.'):
             if d not in OCA_REPOSITORY_NAMES and \
