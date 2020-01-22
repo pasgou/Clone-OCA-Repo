@@ -80,6 +80,9 @@ OCA_PROJECTS = {
     'geospatial': ['geospatial'],
     'hr': ['timesheet',
            'hr',
+           'hr-attendance',
+           'hr-expense',
+           'hr-holidays',
            'department',
            ],
     'connector-odoo2odoo': ['connector-odoo2odoo'],
@@ -197,6 +200,7 @@ OCA_PROJECTS = {
                 'website-cms',
                 ],
 }
+
 
 NOT_ADDONS = {
     'odoo-community.org',
