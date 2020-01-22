@@ -285,7 +285,7 @@ def clone(organization_remotes=None,
             print local_path
             print addon_path
             os.chdir(addon_path)
-            cmd = ['git', 'pull', '--quiet']
+            cmd = ['git', 'pull']
             subprocess.call(cmd)
             os.chdir(local_path)
         else:
