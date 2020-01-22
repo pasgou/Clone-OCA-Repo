@@ -286,7 +286,11 @@ def clone(organization_remotes=None,
             cmd = ['git',
                    '--git-dir=' + os.path.join(project, '.git'),
                    'fetch', '--all']
-            subprocess.call(cmd)
+            try:
+                subprocess.call(cmd)
+            except:
+                cmd = ['git', 'pull', '--quiet', url(project,protocol),'-b', branche, project]
+                subprocess.call(cmd)
         if organization_remotes:
             for organization_remote in organization_remotes.split(','):
                 cmd = ['git', '--git-dir=' + os.path.join(project, '.git'),
